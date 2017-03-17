@@ -1,6 +1,3 @@
 requests
-gnomic
-potion-client
 pandas
-goodtables
-pytest
+cobra

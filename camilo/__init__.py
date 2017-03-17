@@ -1,20 +1,8 @@
 import logging
 import sys
-from potion_client import Client
-from potion_client.auth import HTTPBearerAuth
-import requests
-from . import settings
-
+from camilo import settings
+from camilo.services import list_experiments, get_model, maps
 
 logger = logging.getLogger('camilo')
-logger.addHandler(logging.StreamHandler(stream=sys.stdout))  # Logspout captures logs from stdout if docker containers
+logger.addHandler(logging.StreamHandler(stream=sys.stdout))
 logger.setLevel(logging.INFO)
-
-
-def iloop_client(api=settings.ILOOP_API, token=settings.ILOOP_TOKEN):
-    requests.packages.urllib3.disable_warnings()
-    return Client(
-        api,
-        auth=HTTPBearerAuth(token),
-        verify=False
-    )
