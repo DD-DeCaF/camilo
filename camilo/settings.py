@@ -30,7 +30,7 @@ def metabolica_client():
     """
     requests.packages.urllib3.disable_warnings()
     return Client(
-        Default.M8A_TOKEN,
+        Default.M8A_API,
         auth=HTTPBearerAuth(Default.M8A_TOKEN),
         verify=False
     )
