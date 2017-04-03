@@ -23,9 +23,9 @@ def list_experiments():
         samples_for_exp['experiment'] = exp_id
         phase_list = []
         for sample_id in samples_for_exp.sample_id:
-            phases_json = get(
-                API_ADDRESS.format('samples/{}/phases').format(sample_id),
-                headers=Default.headers).json()
+            phases_json = (get(API_ADDRESS.format('samples/{}/phases')
+                               .format(sample_id), headers=Default.headers)
+                           .json())
             phases_for_sample = pd.DataFrame(phases_json).rename(str, {
                 'id': 'phase_id', 'name': 'phase_name'})
             phases_for_sample['sample_id'] = sample_id
@@ -37,12 +37,18 @@ def list_experiments():
     return result
 
 
-def get_model(sample_id, phase_id):
-    model_request = get(
-        API_ADDRESS.format('samples/{}/model').format(sample_id),
-        headers=Default.headers)
-    json_response = model_request.json()
-    return model_from_dict(json_response[str(phase_id)]['model'])
+def get_model(sample_id, phase_id, model_id=None):
+    if model_id is None:
+        model_options = (get(API_ADDRESS.format('samples/{}/model-options')
+                             .format(sample_id))
+                         .json())
+        model_id = model_options[0]
+
+    response = (get(API_ADDRESS.format('samples/{}/model/{}')
+                    .format(sample_id, model_id), headers=Default.headers)
+                .json())
+    return to_solver_based_model(
+        model_from_dict(response[str(phase_id)]['model']))
 
 
 def make_name(name):
