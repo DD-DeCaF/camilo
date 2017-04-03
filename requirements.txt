@@ -1,3 +1,4 @@
 requests
 pandas
-cobra
+cobra<=0.5.11
+cameo<=0.10.99

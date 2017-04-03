@@ -1,11 +1,10 @@
+from cameo.core import to_solver_based_model
+from cobra.io.json import _from_dict as model_from_dict
+import re
 from requests import get
 import pandas as pd
+
 from camilo.settings import Default
-try:
-    from cobra.io import model_from_dict
-except ImportError:
-    from cobra.io.json import _from_dict as model_from_dict
-import re
 
 API_ADDRESS = Default.API_ADDRESS + '/{}'
 
